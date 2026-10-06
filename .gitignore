@@ -1,0 +1,7 @@
+# Binaries
+golist
+*.exe
+
+# Local data & environment
+.env
+data/
