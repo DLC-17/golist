@@ -173,6 +173,37 @@ GOLIST_MOCK_AI=1 ./golist process
 
 ---
 
+## Deployment
+
+### 1. Docker Compose (Continuous Background Ingestion)
+
+Run GoList in watch mode as a containerized service with automatic restarts:
+
+```bash
+docker compose up -d
+```
+
+This mounts the `./data` directory from your host and watches `data/dump/` continuously.
+
+### 2. Standalone Service (Linux systemd)
+
+For running as a daemon on a Linux workstation or NAS:
+
+1. Copy the compiled binary to `/usr/local/bin/golist`.
+2. Configure `/etc/golist/golist.env`.
+3. Install the systemd unit file:
+   ```bash
+   sudo cp deploy/systemd/golist.service /etc/systemd/system/
+   sudo systemctl daemon-reload
+   sudo systemctl enable --now golist
+   ```
+
+### 3. Automated Cross-Platform Releases
+
+Tagging a commit with a semver tag (e.g. `git tag v1.0.0 && git push origin v1.0.0`) triggers the GitHub Actions release pipeline, automatically publishing pre-built archives and checksums for Linux, macOS, and Windows.
+
+---
+
 ## License
 
 MIT

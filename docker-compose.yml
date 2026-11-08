@@ -1,0 +1,13 @@
+services:
+  golist:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: golist:latest
+    container_name: golist-watcher
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/data
+    command: ["process", "--watch"]

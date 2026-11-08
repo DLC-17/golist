@@ -14,6 +14,13 @@ import (
 	"time"
 )
 
+var (
+	// Version metadata, injected via -ldflags during build
+	Version = "dev"
+	Commit  = "none"
+	Date    = "unknown"
+)
+
 func main() {
 	cfg := LoadConfig()
 
@@ -49,6 +56,8 @@ func main() {
 		handlePublish(ctx, cfg, bm, limiter, os.Args[2:])
 	case "status":
 		handleStatus(bm, limiter)
+	case "version", "-v", "--version":
+		printVersion()
 	case "help", "-h", "--help":
 		printUsage()
 	default:
@@ -69,6 +78,7 @@ Commands:
   review <batch_id>  Inspect and approve/edit a draft (supports --edit, --approve)
   publish [batch_id] Publish draft(s) to eBay (supports --all, --dry-run)
   status             Show system status and batch counts across pipeline
+  version            Show build version and metadata
   help               Show this help message
 
 Configuration (.env or environment variables):
@@ -79,6 +89,10 @@ Configuration (.env or environment variables):
   EBAY_REFRESH_TOKEN  eBay User Refresh Token
   EBAY_ENV            sandbox (default) or production
   DATA_DIR            Storage directory (default: ./data)`)
+}
+
+func printVersion() {
+	fmt.Printf("golist %s (commit: %s, built at: %s)\n", Version, Commit, Date)
 }
 
 func handleProcess(ctx context.Context, bm *BatchManager, ai *AICategorizer, args []string) {

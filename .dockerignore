@@ -1,0 +1,9 @@
+.git
+.gitignore
+.env
+data/
+golist
+*.exe
+deploy/
+.github/
+README.md

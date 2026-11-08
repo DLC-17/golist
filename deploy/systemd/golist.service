@@ -1,0 +1,23 @@
+[Unit]
+Description=GoList Automated eBay Ingestion Service
+After=network.target
+
+[Service]
+Type=simple
+User=golist
+Group=golist
+WorkingDirectory=/var/lib/golist
+EnvironmentFile=/etc/golist/golist.env
+ExecStart=/usr/local/bin/golist process --watch
+Restart=on-failure
+RestartSec=10s
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/golist/data
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
